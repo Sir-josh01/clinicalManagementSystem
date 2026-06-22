@@ -1,0 +1,50 @@
+# ─── SECURITY & LOCAL ENVIRONMENT VARIABLES ───
+# Keep your production API strings, MongoDB URIs, and secrets completely private
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+
+# ─── DEPENDENCIES ───
+# Never commit node_modules; cloud hosts run npm install fresh during builds
+node_modules/
+/jspm_packages
+/web_modules
+
+
+# ─── PRODUCTION BUILD OUTPUTS ───
+# Temporarily generated build artifacts for your frontend compiler (Vite/CRA)
+dist/
+build/
+out/
+
+
+# ─── SYSTEM CACHES & ENGINE LOGS ───
+# Clears terminal/bundler debugging outputs out of your repository commits
+.eslintcache
+.vite/
+.parcel-cache
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+
+# ─── OS SPECIFIC METADATA ───
+# Prevents local operating system tracking files from polluting repo directories
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# ─── IDE CONFIGURATIONS (OPTIONAL) ───
+# Local configurations for text editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

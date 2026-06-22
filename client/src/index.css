@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* v4 Custom Theme Configurations & Dark Mode Setup */
+@theme {
+  --color-clinical-blue-light: #3b82f6;
+  --color-clinical-blue: #1d4ed8;
+  --color-clinical-blue-dark: #1e3a8a;
+}
+
+/* Enforce class-based dark mode toggling */
+@variant dark (&:where(.dark, .dark *));
+
+/* Smooth transitions for high-end dashboard appearance */
+body {
+  transition: color 0.2s, background-color 0.2s;
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-900);
+}
+
+.dark body {
+  background-color: var(--color-slate-900);
+  color: var(--color-slate-50);
+}
