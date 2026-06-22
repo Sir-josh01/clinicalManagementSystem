@@ -34,11 +34,6 @@ app.use('/api/appointments', appointmentRoutes); // Routes for managing appointm
 app.use('/api/records', recordRoutes); // Routes for managing medical records
 app.use('/api/invoices', invoiceRoutes); // Routes for managing invoices
 
-const PORT = process.env.PORT || 5000;
-
-// app.listen(PORT, () => {
-//     console.log(`Server running smoothly on port ${PORT}`);
-// });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running smoothly on port ${PORT}`));
