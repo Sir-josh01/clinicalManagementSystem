@@ -1,4 +1,4 @@
-import Invoice from '../models/invoice.js';
+import Invoice from '../models/invoices.js';
 
 // @desc    Generate a new patient invoice
 // @route   POST /api/invoices
