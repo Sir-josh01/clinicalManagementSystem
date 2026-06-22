@@ -1,5 +1,5 @@
-import MedicalRecord from '../models/MedicalRecord.js';
-import Appointment from '../models/Appointment.js';
+import MedicalRecord from '../models/medicalRecord.js';
+import Appointment from '../models/appointment.js';
 
 // @desc    Create a new clinical medical record & prescription
 // @route   POST /api/records
