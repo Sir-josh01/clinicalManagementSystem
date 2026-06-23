@@ -1,14 +1,21 @@
 import axios from 'axios';
 
-// Create a configured instance pointing directly to our backend server URL
+// Detect if the app is currently running on your local machine
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+// Automatically points to your live Render server or local fallback
+const BASE_URL = isLocalhost 
+    ? 'http://localhost:5000/api' 
+    : 'https://clinicalmanagementsystem-2.onrender.com/api'; // Added /api here!
+
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: BASE_URL,
     headers: {
         'Content-Type': 'application/json'
     }
 });
 
-// Request Interceptor: Intercepts every outgoing request and injects the authorization token
+// Request Interceptor
 api.interceptors.request.use(
     (config) => {
         const storedUser = localStorage.getItem('cms_user');

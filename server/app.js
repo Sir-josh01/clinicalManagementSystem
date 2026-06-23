@@ -18,9 +18,33 @@ connectDB();
 
 const app = express();
 
+// Array of allowed origins tracking local testing and production deployments
+const allowedOrigins = [
+  'http://localhost:5173', // Default Vite local development port
+  'http://localhost:3000', // Alternative React port
+  // Add your future production frontend URL here once deployed (e.g., Vercel)
+];
+
+// Configure CORS with allowed origins
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Blocked by CORS policy layer'));
+    }
+  },
+  credentials: true, // Allows cookie transmission or auth tokens headers cross-origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
 // Global Middlewares
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json()); 
 
 // Base Test Route
