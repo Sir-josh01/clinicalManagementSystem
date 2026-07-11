@@ -1,5 +1,75 @@
 import User from '../models/users.js';
 import jwt from 'jsonwebtoken';
+import crypto from "crypto";
+
+// @desc    Generate password reset token & simulate/send recovery link
+// @route   POST /api/auth/forgot-password
+export const forgotPassword = async (req, res) => {
+  const {email} = req.body;
+
+  try {
+    const user = await User.findOne({ email })
+    if(!user) {
+      return res.status(404).json({ message: "No account found with that email address"})
+    }
+
+    // Generate a raw random 20-byte token 
+    const rawToken = crypto.randomBytes(20).toString('hex');
+
+    // Hash the token and save it to the database
+    user.resetPasswordToken = crypto.createHash('sha256').update(rawToken).digest('hex'); 
+
+    // set token expiration limit to 10mins
+    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+    await user.save();
+
+    // 4. Create the URL (points to your future frontend reset screen)
+    // Since we are coding locally, we output this to the terminal console log
+    const resetUrl = `${req.protocol}://${req.get('host')}/reset-password/${rawToken}`;
+
+    console.log(`\n========== 📬 PASSWORD RESET EMAIL SIMULATION ==========`);
+    console.log(`To: ${user.email}`);
+    console.log(`Click this link to reset your account credentials:\n${resetUrl}`);
+    console.log(`==========================================================\n`);
+
+    res.status(200).json({ message: "Recovery information sent. Please check your inboxs / logs"})
+  } catch (err) {
+    res.status(500).json({ message: "Server error initiating the password reset protocol"})
+  }
+};
+
+// @desc    Verify token validity and update password user account
+// @route   PUT /api/auth/reset-password/:token
+export const resetPassword = asyn (req, res) => {
+  // Hash the incoming URL token parameter to compare against our stored database hash
+  const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+
+  try {
+    const user = await User.findOne({ 
+      resetPasswordToken: hashedToken, 
+      resetPasswordExpire: {$gt: Date.now()}
+    })
+
+    if (!user) {
+      return res.status(400).json({message : "Invalid or expire recovery token parameter"}) 
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(req.body.password, salt);
+
+    // clear reset token tracking field completely
+    user.resetPasswordToken = undefined;
+    user.redetPasswordExpire = undefined;
+
+    await user.save();
+
+    res.status(200).json({ message:"Password updated successfully. You can now login"});
+
+  } catch(err) {
+    res.status(500).json({ message:"Server encountered an error resetting your password"});
+  }
+};
 
 // Helper function to generate JWT
 const generateToken = (id) => {

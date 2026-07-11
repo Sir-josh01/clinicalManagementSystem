@@ -37,7 +37,9 @@ const UserSchema = new Schema({
     isActive: {
         type: Boolean,
         default: true
-    }
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date
 }, {
     timestamps: true // Automatically generates createdAt and updatedAt timestamps
 });

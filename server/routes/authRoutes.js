@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser } from '../controllers/authController.js';
+import { registerUser, loginUser, forgotPassword, resetPassword } from '../controllers/authController.js';
 import { protect, restrictTo } from '../middleware/authMiddleware.js'; // Import our new middleware
 
 const router = express.Router();
@@ -14,5 +14,8 @@ router.get('/doctor-dashboard-test', protect, restrictTo('doctor', 'admin'), (re
         message: `Access Granted! Welcome Dr. ${req.user.lastName}. Here is your secure data.`
     });
 });
+
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 
 export default router;
