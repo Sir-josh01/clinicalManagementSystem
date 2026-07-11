@@ -1,6 +1,7 @@
 import User from '../models/users.js';
 import jwt from 'jsonwebtoken';
 import crypto from "crypto";
+import bcrypt from 'bcryptjs';
 
 // @desc    Generate password reset token & simulate/send recovery link
 // @route   POST /api/auth/forgot-password
@@ -10,7 +11,7 @@ export const forgotPassword = async (req, res) => {
   try {
     const user = await User.findOne({ email })
     if(!user) {
-      return res.status(404).json({ message: "No account found with that email address"})
+      return res.status(200).json({ message: "Recovery information sent. Please check your inboxs / logs"})
     }
 
     // Generate a raw random 20-byte token 
@@ -40,7 +41,7 @@ export const forgotPassword = async (req, res) => {
 
 // @desc    Verify token validity and update password user account
 // @route   PUT /api/auth/reset-password/:token
-export const resetPassword = asyn (req, res) => {
+export const resetPassword = async (req, res) => {
   // Hash the incoming URL token parameter to compare against our stored database hash
   const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
@@ -54,13 +55,19 @@ export const resetPassword = asyn (req, res) => {
       return res.status(400).json({message : "Invalid or expire recovery token parameter"}) 
     }
 
+    const { password } = req.body;
+    if (!password || typeof password !== 'string' || password.length < 6) {
+      return res.status(400).json({ message: "Password must be provided and at least 6 characters long" });
+    }
+
     // Hash the new password
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    user.password = hashedPassword;
 
     // clear reset token tracking field completely
     user.resetPasswordToken = undefined;
-    user.redetPasswordExpire = undefined;
+    user.resetPasswordExpire = undefined;
 
     await user.save();
 

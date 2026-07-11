@@ -38,6 +38,7 @@ const UserSchema = new Schema({
         type: Boolean,
         default: true
     },
+    // Fields for password reset functionality
     resetPasswordToken: String,
     resetPasswordExpire: Date
 }, {
