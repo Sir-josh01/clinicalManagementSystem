@@ -18,11 +18,15 @@ connectDB();
 
 const app = express();
 
+// SECURITY NOTE: Render uses a reverse proxy (Load Balancer). 
+// This line ensures our rate-limiters read the user's actual IP, not Render's internal IP.
+app.set('trust proxy', 1);
+
 // Array of allowed origins tracking local testing and production deployments
 const allowedOrigins = [
   'http://localhost:5173', // Default Vite local development port
   'http://localhost:3000', // Alternative React port
-  // Add your future production frontend URL here once deployed (e.g., Vercel)
+  'https://clinicalmanagementsystem-2.vercel.app', // <-- Add your live Vercel frontend URL here!
 ];
 
 // Configure CORS with allowed origins

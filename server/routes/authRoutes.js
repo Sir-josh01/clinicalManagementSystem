@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser, forgotPassword, resetPassword } from '../controllers/authController.js';
+import { registerUser, loginUser, forgotPassword, resetPassword, resetPasswordLimiter } from '../controllers/authController.js';
 import { protect, restrictTo } from '../middleware/authMiddleware.js'; // Import our new middleware
 
 const router = express.Router();
@@ -15,7 +15,7 @@ router.get('/doctor-dashboard-test', protect, restrictTo('doctor', 'admin'), (re
     });
 });
 
-router.post('/forgot-password', forgotPassword);
+router.post('/forgot-password', resetPasswordLimiter, forgotPassword);
 router.put('/reset-password/:token', resetPassword);
 
 export default router;
