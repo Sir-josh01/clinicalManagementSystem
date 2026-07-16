@@ -30,21 +30,30 @@ const allowedOrigins = [
 ];
 
 // Configure CORS with allowed origins
-const corsOptions = {
+app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+    // 1. If there's no origin (like Postman, curl, or initial preflight check), allow it
+    if (!origin) {
+      return callback(null, true);
+    }
     
+    // 2. If the origin is in our whitelist, allow it
     if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
+      return callback(null, true);
     } else {
-      callback(new Error('Blocked by CORS policy layer'));
+      // Instead of throwing a generic Error that crashes the server (500),
+      // we gracefully return false to let CORS block it securely.
+      return callback(null, false);
     }
   },
-  credentials: true, // Allows cookie transmission or auth tokens headers cross-origin
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
-};
+}));
+
+// 3. Handle OPTIONS preflight requests explicitly at the routing level to prevent 500s
+app.options('*', cors());
+
 
 // Global Middlewares
 app.use(helmet());
