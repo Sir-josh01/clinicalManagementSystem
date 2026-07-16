@@ -2,7 +2,7 @@
   "name": "clinicmanagementsystem",
   "version": "1.0.0",
   "description": "A full-stack, enterprise-grade clinical management engine built to streamline scheduling, automate itemized health billing ledgers, and secure clinical communication pipelines.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "client": "npm run dev --prefix client",
     "server": "npm run dev --prefix server",
