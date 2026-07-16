@@ -26,7 +26,7 @@ app.set('trust proxy', 1);
 const allowedOrigins = [
   'http://localhost:5173', // Default Vite local development port
   'http://localhost:3000', // Alternative React port
-  'https://clinical-management-system-five.vercel.app/', // <-- Add your live Vercel frontend URL here!
+  'https://clinical-management-system-theta.vercel.app/', // <-- Add your live Vercel frontend URL here!
 ];
 
 // Configure CORS with allowed origins
