@@ -1,19 +1,14 @@
 import axios from 'axios';
 
-// 1. Grab the environment variable from Vite
-const envUrl = import.meta.env.VITE_API_URL;
+// 1. Automatically detect if we are running locally or live on Vercel
+const BASE_URL = import.meta.env.MODE === 'development'
+  ? 'http://localhost:5000/api'                          // Local Backend Port
+  : 'https://clinicalmanagementsystem-2ojw.onrender.com/api'; // Your ACTUAL Live Render URL
 
-// 2. Print it to the browser console so we can debug it live!
-console.log("DEBUG: Raw VITE_API_URL read by Vite:", envUrl);
+console.log("DEBUG: Running in mode:", import.meta.env.MODE);
+console.log("DEBUG: Axios is communicating with:", BASE_URL);
 
-// 3. Fallback logic: If envUrl exists, use it. Otherwise, default to localhost.
-const BASE_URL = envUrl ? envUrl : 'http://localhost:5000/api';
-
-console.log("DEBUG: Final BASE_URL being used by Axios:", BASE_URL);
-
-// Detect if the app is currently running on your local machine
-// const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
+// 2. Create the Axios instance
 const api = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -21,7 +16,7 @@ const api = axios.create({
     }
 });
 
-// Request Interceptor
+// Request Interceptor (Keeps your token handling working perfectly)
 api.interceptors.request.use(
     (config) => {
         const storedUser = localStorage.getItem('cms_user');
