@@ -1,0 +1,26 @@
+{
+  "name": "clinicmanagementsystem",
+  "version": "1.0.0",
+  "description": "A full-stack, enterprise-grade clinical management engine built to streamline scheduling, automate itemized health billing ledgers, and secure clinical communication pipelines.",
+  "main": "index.js",
+  "scripts": {
+    "client": "npm run dev --prefix client",
+    "server": "npm run dev --prefix server",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sir-josh01/clinicalManagementSystem.git"
+  },
+  "keywords": ["clinical", "management", "system", "healthcare", "scheduling", "billing", "communication"],
+  "author": "Sir-josh01",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Sir-josh01/clinicalManagementSystem/issues"
+  },
+  "homepage": "https://github.com/Sir-josh01/clinicalManagementSystem#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}

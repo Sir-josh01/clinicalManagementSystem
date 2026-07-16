@@ -26,7 +26,7 @@ app.set('trust proxy', 1);
 const allowedOrigins = [
   'http://localhost:5173', // Default Vite local development port
   'http://localhost:3000', // Alternative React port
-  'https://clinicalmanagementsystem-2.vercel.app', // <-- Add your live Vercel frontend URL here!
+  'https://clinical-management-system-five.vercel.app/', // <-- Add your live Vercel frontend URL here!
 ];
 
 // Configure CORS with allowed origins
@@ -64,4 +64,4 @@ app.use('/api/invoices', invoiceRoutes); // Routes for managing invoices
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running smoothly on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running smoothly on port ${PORT}`));
