@@ -52,7 +52,7 @@ app.use(cors({
 }));
 
 // 3. Handle OPTIONS preflight requests explicitly at the routing level to prevent 500s
-app.options('*', cors());
+app.options(/.*/, cors());
 
 
 // Global Middlewares
