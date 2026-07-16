@@ -57,7 +57,6 @@ app.options(/.*/, cors());
 
 // Global Middlewares
 app.use(helmet());
-app.use(cors(corsOptions));
 app.use(express.json()); 
 
 // Base Test Route
